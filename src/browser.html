@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      let historyObj = window.history;
+      window.onpopstate = window.onpushstate = (event) => {
+        console.log(event);
+        root.innerHTML = window.location.pathname;
+      };
+      //   window.onpushstate = (event) => {
+      //     console.log(event);
+      //     root.innerHTML = window.location.pathname;
+      //   };
+      window.addEventListener("popstate", (event) => {
+        console.log(event);
+        root.innerHTML = window.location.pathname;
+      });
+      window.addEventListener("pushstate", (event) => {
+        console.log(event);
+        root.innerHTML = event.detail.pathname || window.location.pathname;
+      });
+      class PushStateEvent {
+        constructor(state, pathname, type) {
+          this.state = state;
+          this.pathname = pathname;
+          this.type = type;
+        }
+      }
+      (function (historyObj) {
+        let oldPushState = history.pushState; // 缓存原生的pushState
+        historyObj.pushState = function (state, title, pathname) {
+          let result = oldPushState.apply(history, arguments);
+          //   if (typeof window.onpushstate === "function") {
+          //     window.onpushstate(
+          //       new PushStateEvent(state, pathname, "pushstate")
+          //     );
+          //   }
+          window.dispatchEvent(
+            new CustomEvent("pushstate", {
+              detail: {
+                state,
+                pathname,
+              },
+            })
+          );
+          return result;
+        };
+      })(historyObj);
+      setTimeout(() => {
+        historyObj.pushState({ page: 1 }, "page1", "/page1");
+      }, 1000);
+      setTimeout(() => {
+        historyObj.pushState({ page: 1 }, "page2", "/page2");
+      }, 2000);
+      setTimeout(() => {
+        historyObj.pushState({ page: 1 }, "page3", "/page3");
+      }, 3000);
+      setTimeout(() => {
+        historyObj.back();
+      }, 4000);
+      setTimeout(() => {
+        historyObj.go(1);
+      }, 5000);
+    </script>
+  </body>
+</html>

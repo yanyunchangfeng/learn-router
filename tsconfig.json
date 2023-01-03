@@ -1,18 +1,30 @@
 {
-    "compilerOptions": {
-    "lib": ["es2017", "dom"],
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types"],
-    "module": "esnext",
+  "compilerOptions": {
     "moduleResolution": "node",
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "outDir": "build",
-    "target": "es5"
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "module": "CommonJS",
+    "strict": true,
+    "target": "es2020",
+    "strictFunctionTypes": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "lib": [
+      "ESNext",
+      "DOM" //console方法内置于DOM
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "*": ["src/types/*"]
     },
-    "include": ["src/**/*"]
+    "preserveConstEnums": true, // 编译结果保留const定义的常量枚举 默认关闭
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [
+    "src/**/*", // 两个*表示任意目录 一个*表示任意文件
+    "src/typings/**/*"
+  ]
 }
