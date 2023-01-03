@@ -12,9 +12,9 @@
 
 ## 原生路由的实现:
 
-[hash/history router](src/index.ts)
-[hash router](src/hash.html)
-[history router](src/brow)
+* [hash/history router](src/index.ts)  
+* [hash router](src/hash.html)   
+* [history router](src/browser.html)   
 
 ## 系列项目
 
